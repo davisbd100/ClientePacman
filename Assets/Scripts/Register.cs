@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using System.ServiceModel;
 
 public class Register : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Register : MonoBehaviour
 
     public void register()
     {
-
+        RegisterServiceClient client;
+        
     }
 }
