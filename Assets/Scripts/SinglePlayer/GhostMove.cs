@@ -435,7 +435,7 @@ public class GhostMove : MonoBehaviour {
         // if the ghost is not running, do nothing
 	    if (state != State.Run) return;
 
-		waypoints.Clear ();
+		waypoints.Clear();
 		state = State.Chase;
 	    _timeToToggleWhite = 0;
 	    _timeToWhite = 0;

@@ -149,7 +149,6 @@ public class GameGUINavigation : MonoBehaviour {
             ScoreCanvas.enabled = false;
             ErrorCanvas.enabled = true;
             ErrorCanvas.GetComponentsInChildren<Text>()[1].text = errorMsg;
-
         }
     }
 }

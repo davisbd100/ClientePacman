@@ -90,7 +90,9 @@ public class GameManager : MonoBehaviour {
 	void Update () 
 	{
 		if(scared && _timeToCalm <= Time.time)
-			CalmGhosts();
+        {
+            CalmGhosts();
+        }
 
 	}
 
