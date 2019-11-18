@@ -31,7 +31,6 @@ public class TileManager : MonoBehaviour {
 	void Start () 
 	{
         ReadTiles();
-
 	}
 
     // Update is called once per frame
