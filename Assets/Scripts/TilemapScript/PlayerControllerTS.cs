@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
-public class PlayerControllerTS : MonoBehaviour
+public class PlayerControllerTS : NetworkBehaviour
 {
     public float speed = 0.1f;
     Vector2 _dest = Vector2.zero;
@@ -23,6 +25,7 @@ public class PlayerControllerTS : MonoBehaviour
 
     private GameManagerTS GM;
     private ScoreManager SM;
+    private NetworkManager NM;
 
     private bool _deadPlaying = false;
 
@@ -31,16 +34,40 @@ public class PlayerControllerTS : MonoBehaviour
     {
         GM = GameObject.Find("Game Manager").GetComponent<GameManagerTS>();
         SM = GameObject.Find("Game Manager").GetComponent<ScoreManager>();
+        NM = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        if (isLocalPlayer)
+        {
+            Camera.main.transform.LookAt(this.transform);
+            Camera.main.transform.parent = this.transform;
+        }
         _dest = transform.position;
     }
 
+    //This method saves the camera from a certain dead
+    private void OnDestroy()
+    {
+        if (isLocalPlayer)
+        {
+            transform.DetachChildren();
+            GameObject.Find("Main Camera").GetComponent<Camera>().enabled = true;
+            GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = true;
+            GameObject.Find("Main Camera").GetComponent<CameraFollow>().enabled = true;
+            Camera.main.transform.LookAt(GameObject.Find("PacmanSpawn").transform.position);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
         GameManagerTS.gameState = GameManagerTS.GameState.Game;
+        if (!isLocalPlayer)
+        {
+            return;
+        }
         switch (GameManagerTS.gameState)
         {
             case GameManagerTS.GameState.Game:
+                
                 ReadInputAndMove();
                 Animate();
                 break;
