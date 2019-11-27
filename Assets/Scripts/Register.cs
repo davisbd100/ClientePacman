@@ -6,7 +6,7 @@ using Pacman_Sevices;
 using System;
 using System.ServiceModel;
 using UnityEditor;
-
+using System.Net.Sockets;
 
 public class Register : MonoBehaviour
 {
@@ -18,6 +18,8 @@ public class Register : MonoBehaviour
     public GameObject Empty_FieldsMessage;
     public GameObject InvalidEmail_Message;
     public GameObject InvalidPassword_Message;
+    public GameObject ConectionError_Message;
+    public GameObject ExistingUser_Message;
 
     public void RegisterPlayer()
     {
@@ -32,46 +34,91 @@ public class Register : MonoBehaviour
             player.Username = User_InputField.text;
             player.Password = Password_InputField.text;
             player.Código = generator.Next(0, 999999).ToString("D6");
-            register.AddUser(player);
+            try
+            {
+                if (CheckInDb(player))
+                {
+                    register.AddUser(player);
+                    SendEmail(player);
+                    Debug.Log("uwu");
+                }               
+            }
+            catch(SocketException)
+            {
+                ShowMessage(ConectionError_Message);
+            }
         }
+    }
+
+    private bool CheckInDb(IRegisterServiceJugador jugador)
+    {
+        bool result;
+        RegisterServiceClient register;
+        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
+        IRegisterServiceJugador player = jugador;
+
+        if(register.SerachUserInDB(player) == DBOperationResultAddResult.Success)
+        {
+            result = true;
+        }
+        else
+        {
+            result = false;
+            ShowMessage(ExistingUser_Message);
+        }
+        return result;
+    }
+
+    private void SendEmail(IRegisterServiceJugador jugador)
+    {
+        ConfirmationServicesClient confirmation;
+        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ConfirmationServices"));
+        IConfirmationServicesJugador player = new IConfirmationServicesJugador();
+        player.Correo = jugador.Correo;
+        player.Código = jugador.Código;
+        confirmation.SendEmail(player);
+        
     }
 
     private bool Validations()
     {
-        bool resultado = false;
+        bool result;
         ValidarCampos validarCampos = new ValidarCampos();
 
         if (validarCampos.ValidarCorreo(Email_InputField.text) == ValidarCampos.ResultadosValidacion.Correoinválido)
         {
+            result = false;
             ShowMessage(InvalidEmail_Message);
 
         }
         else if (validarCampos.ValidarPassword(Password_InputField.text) == ValidarCampos.ResultadosValidacion.ContraseñaInválida)
         {
+            result = false;
             ShowMessage(InvalidPassword_Message);
         }
         else
         {
-            resultado = true;
+            result = true;
         }
 
-        return resultado;
+        return result;
     }
 
     private bool CheckEmpty()
     {
-        bool resultado = false;
+        bool result;
         if (User_InputField.text == string.Empty || Name_InputField.text == string.Empty ||
             Password_InputField.text == string.Empty || Email_InputField.text == string.Empty)
         {
+            result = false;
             ShowMessage(Empty_FieldsMessage);
         }
         else
         {
-            resultado = true;
+            result = true;
         }
 
-        return resultado;
+        return result;
     }
 
     public void ShowMessage(GameObject window)
