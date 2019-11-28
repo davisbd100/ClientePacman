@@ -1,55 +1,37 @@
 fileFormatVersion: 2
-guid: cccf275162c5df043a056fcfa65ef5d4
+guid: 2c5c73fa45fa9c9419451f96cffb2e3a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 341657904619825912
-    second: PacmanPers_0
+      213: -5899927303015767666
+    second: Ghost_0
   - first:
-      213: 4982451962815218367
-    second: PacmanPers_1
+      213: 6824852377700625651
+    second: Ghost_1
   - first:
-      213: -1046319212864081172
-    second: PacmanPers_2
+      213: -1720829479360743675
+    second: Ghost_2
   - first:
-      213: -7530622363829556885
-    second: PacmanPers_3
+      213: 961504700816514905
+    second: Ghost_3
   - first:
-      213: -8280270513131728253
-    second: PacmanPers_4
+      213: -5178447075761725730
+    second: Ghost_4
   - first:
-      213: 5381388888513172009
-    second: PacmanPers_5
+      213: 8991445823508332458
+    second: Ghost_5
   - first:
-      213: 8087745076251022464
-    second: PacmanPers_6
+      213: -923108277791623692
+    second: Ghost_6
   - first:
-      213: 2452488918876766470
-    second: PacmanPers_7
+      213: -4121637456501685004
+    second: Ghost_7
   - first:
-      213: 2155488726686256256
-    second: PacmanPers_8
+      213: -2205440430153107873
+    second: Ghost_8
   - first:
-      213: -2313284237764811377
-    second: PacmanPers_9
-  - first:
-      213: 5730465081839201351
-    second: PacmanPers_10
-  - first:
-      213: 1588262144451306045
-    second: PacmanPers_11
-  - first:
-      213: 7771840942865354780
-    second: PacmanPers_12
-  - first:
-      213: 4395813133410481181
-    second: PacmanPers_13
-  - first:
-      213: -7408867782527875959
-    second: PacmanPers_14
-  - first:
-      213: 1977864374530277255
-    second: PacmanPers_15
+      213: 7434381711262100580
+    second: Ghost_9
   externalObjects: {}
   serializedVersion: 10
   mipmaps:
@@ -146,70 +128,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacmanPers_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e5aa8f947fa7ae047beaa67f9720169d
-      internalID: 341657904619825912
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_1
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b8ba36bf1cabde54db6bbd772726f730
-      internalID: 4982451962815218367
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_2
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 160
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fb812df2f8dc2b7459629bc3d70a4cee
-      internalID: -1046319212864081172
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_3
+      name: Ghost_0
       rect:
         serializedVersion: 2
         x: 0
@@ -223,14 +142,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 12a711ba4faaea34e835c1d90b9e0e70
-      internalID: -7530622363829556885
+      spriteID: 1f05cbf063e91504b9226764277cebdb
+      internalID: -5899927303015767666
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_4
+      name: Ghost_1
       rect:
         serializedVersion: 2
         x: 32
@@ -244,35 +163,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d750857fa7dff21418f3cfbf0547e2fa
-      internalID: -8280270513131728253
+      spriteID: cfa6d0f221f329e4685e8337d36a9027
+      internalID: 6824852377700625651
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_5
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 128
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5ea6044d42256ca44892cbf64bfdd29f
-      internalID: 5381388888513172009
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_6
+      name: Ghost_2
       rect:
         serializedVersion: 2
         x: 0
@@ -286,14 +184,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24406059f4765bd4da5df64da17f5840
-      internalID: 8087745076251022464
+      spriteID: 7976d7213eefffe4eb3a772aec2fffbc
+      internalID: -1720829479360743675
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_7
+      name: Ghost_3
       rect:
         serializedVersion: 2
         x: 32
@@ -307,35 +205,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 051fe7ba20809e04ca74af81bfb8c5e5
-      internalID: 2452488918876766470
+      spriteID: d33abdc4ee486e74a8c33cb09daaff01
+      internalID: 961504700816514905
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_8
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 96
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d06d636544a257446bfc6bae23568028
-      internalID: 2155488726686256256
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_9
+      name: Ghost_4
       rect:
         serializedVersion: 2
         x: 0
@@ -349,14 +226,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 72f0d666ed9bce5429f0feb0940d5f15
-      internalID: -2313284237764811377
+      spriteID: 48ac441e71e09314480aae79207baaa4
+      internalID: -5178447075761725730
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_10
+      name: Ghost_5
       rect:
         serializedVersion: 2
         x: 32
@@ -370,35 +247,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f3ff1ba90d5c2e743a65639e873a04d5
-      internalID: 5730465081839201351
+      spriteID: 9d8e4d6a600db634992dd84e25460e6b
+      internalID: 8991445823508332458
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_11
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6b52d05db49d453489da79d722eb6510
-      internalID: 1588262144451306045
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_12
+      name: Ghost_6
       rect:
         serializedVersion: 2
         x: 0
@@ -412,14 +268,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 256ec3ea0db49b44b815aa75682b0f95
-      internalID: 7771840942865354780
+      spriteID: f13fbfc5af2124746a73e67c2193f10b
+      internalID: -923108277791623692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_13
+      name: Ghost_7
       rect:
         serializedVersion: 2
         x: 32
@@ -433,35 +289,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b49f51b5f5a2dac4e87387e8a949079b
-      internalID: 4395813133410481181
+      spriteID: a8c1f78b5b0ebe94fba39d4664182e68
+      internalID: -4121637456501685004
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacmanPers_14
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 32
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 569f1b64b16e685488ddbdabc19051e5
-      internalID: -7408867782527875959
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PacmanPers_15
+      name: Ghost_8
       rect:
         serializedVersion: 2
         x: 0
@@ -475,8 +310,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe17936935201b84ba586d34f2e30a40
-      internalID: 1977864374530277255
+      spriteID: c306fe1a91dcc54478ee80207c3d0e51
+      internalID: -2205440430153107873
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ghost_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5379a62b78bce81479de700a3dd89048
+      internalID: 7434381711262100580
       vertices: []
       indices: 
       edges: []

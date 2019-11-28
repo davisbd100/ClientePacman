@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class GameManagerTS : MonoBehaviour
+public class GameManagerTS : NetworkBehaviour
 {
     public static int Level = 0;
     public static int lives = 1;
