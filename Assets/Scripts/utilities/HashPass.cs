@@ -3,12 +3,12 @@ using System.Security.Cryptography;
 using System;
 using System.Text;
 
-public class Utilities : MonoBehaviour
+public class UtilitiesHash : MonoBehaviour
 {
     /// <summary>Hashea un parametro ingresado.</summary>
     /// <param name="data">El parametro.</param>
     /// <returns>El parametro en SHA1</returns>
-    private String PassHash(String data)
+    public String PassHash(String data)
     {
         SHA1 sha = SHA1.Create();
         byte[] hashData = sha.ComputeHash(Encoding.Default.GetBytes(data));
