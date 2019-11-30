@@ -7,6 +7,7 @@ using System;
 using System.ServiceModel;
 using UnityEditor;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 public class Register : MonoBehaviour
 {
@@ -20,35 +21,95 @@ public class Register : MonoBehaviour
     public GameObject InvalidPassword_Message;
     public GameObject ConectionError_Message;
     public GameObject ExistingUser_Message;
+    public GameObject Loading_Message;
 
-    public void RegisterPlayer()
+
+    public void StartRegister()
     {
         if (CheckEmpty() == true && Validations() == true)
         {
-            System.Random generator = new System.Random();
-            RegisterServiceClient register;
-            register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
-            IRegisterServiceJugador player = new IRegisterServiceJugador();
-            player.Correo = Email_InputField.text;
-            player.Nombre = Name_InputField.text;
-            player.Username = User_InputField.text;
-            player.Password = Password_InputField.text;
-            player.Código = generator.Next(0, 999999).ToString("D6");
-            try
-            {
-                if (CheckInDb(player))
-                {
-                    register.AddUser(player);
-                    SendEmail(player);
-                    Debug.Log("uwu");
-                }               
-            }
-            catch(SocketException)
+            if (DoRegisterAsync().Wait(15))
             {
                 ShowMessage(ConectionError_Message);
             }
         }
+
+
     }
+
+    public async Task DoRegisterAsync()
+    {
+        LoadingMessageStatus(true);
+        try
+        {
+            await Task.Run(async () =>
+            {
+                Debug.Log("Task started");
+                await RegisterPlayer();
+                Debug.Log("Task stopped");
+            });
+        }
+        catch (SocketException)
+        {
+            ShowMessage(ConectionError_Message);
+        }
+        catch (TimeoutException)
+        {
+            ShowMessage(ConectionError_Message);
+        }
+        catch (DuplicateRecordException)
+        {
+            ShowMessage(ExistingUser_Message);
+        }
+        finally
+        {
+            LoadingMessageStatus(false);
+        }
+
+
+        LoadingMessageStatus(false);
+    }
+
+    public Task RegisterPlayer()
+    {
+
+        System.Random generator = new System.Random();
+        UtilitiesHash utilitiesHash = new UtilitiesHash();
+        RegisterServiceClient register;
+        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
+        IRegisterServiceJugador player = new IRegisterServiceJugador();
+        player.Correo = Email_InputField.text;
+        player.Nombre = Name_InputField.text;
+        player.Username = User_InputField.text;
+        player.Password = utilitiesHash.PassHash(Password_InputField.text);
+        player.Código = generator.Next(0, 999999).ToString("D6");
+
+        try
+        {
+            if (CheckInDb(player))
+            {
+                register.AddUser(player);
+                SendEmail(player);
+            }
+        }
+        catch (SocketException)
+        {
+            throw new SocketException();
+            
+        }
+        catch (TimeoutException)
+        {
+            throw new TimeoutException();
+
+        }
+        catch (DuplicateRecordException)
+        {
+            throw new DuplicateRecordException();
+        }
+
+        return Task.CompletedTask;
+    }
+ 
 
     private bool CheckInDb(IRegisterServiceJugador jugador)
     {
@@ -57,14 +118,13 @@ public class Register : MonoBehaviour
         register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
         IRegisterServiceJugador player = jugador;
 
-        if(register.SerachUserInDB(player) == DBOperationResultAddResult.Success)
+        if (register.SerachUserInDB(player) == DBOperationResultAddResult.Success)
         {
             result = true;
         }
         else
         {
-            result = false;
-            ShowMessage(ExistingUser_Message);
+            throw new DuplicateRecordException();
         }
         return result;
     }
@@ -77,7 +137,7 @@ public class Register : MonoBehaviour
         player.Correo = jugador.Correo;
         player.Código = jugador.Código;
         confirmation.SendEmail(player);
-        
+
     }
 
     private bool Validations()
@@ -123,12 +183,20 @@ public class Register : MonoBehaviour
 
     public void ShowMessage(GameObject window)
     {
+
         window.SetActive(true);
     }
 
     public void CloseMessage(GameObject window)
     {
+
         window.SetActive(false);
+
+    }
+
+    private void LoadingMessageStatus(bool status)
+    {
+        Loading_Message.SetActive(status);
     }
 
 
