@@ -8,6 +8,7 @@ using System.ServiceModel;
 using UnityEditor;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class Register : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class Register : MonoBehaviour
 
     public async Task DoRegisterAsync()
     {
+        bool status = true;
         LoadingMessageStatus(true);
         try
         {
@@ -51,23 +53,29 @@ public class Register : MonoBehaviour
         }
         catch (SocketException)
         {
+            status = false;
             ShowMessage(ConectionError_Message);
         }
         catch (TimeoutException)
         {
+            status = false;
             ShowMessage(ConectionError_Message);
         }
         catch (DuplicateRecordException)
         {
+            status = false;
             ShowMessage(ExistingUser_Message);
         }
         finally
         {
             LoadingMessageStatus(false);
         }
-
-
         LoadingMessageStatus(false);
+        if (status)
+        {
+            SceneManager.LoadScene("Confirmacion");
+        }
+
     }
 
     public Task RegisterPlayer()
@@ -106,7 +114,9 @@ public class Register : MonoBehaviour
         {
             throw new DuplicateRecordException();
         }
-
+        CurrentPlayer.Username = player.Username;
+        CurrentPlayer.Email = player.Correo;
+        CurrentPlayer.Código = player.Código;
         return Task.CompletedTask;
     }
  
