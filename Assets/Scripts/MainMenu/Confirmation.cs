@@ -23,7 +23,7 @@ public class Confirmation : MonoBehaviour
     {
         if(Validations() && CheckEmpty())
         {
-            if (ConfirmAsync().Wait(15))
+            if (ConfirmAsync().Wait(30))
             {
                 ShowMessage(ConectionError_Message);
             }
@@ -32,7 +32,7 @@ public class Confirmation : MonoBehaviour
 
     public void GenerateNewCode()
     {
-        if (NewCodeAsync().Wait(15))
+        if (NewCodeAsync().Wait(30))
         {
             ShowMessage(ConectionError_Message);
         }
@@ -223,6 +223,7 @@ public class Confirmation : MonoBehaviour
     private void LoadingMessageStatus(bool status)
     {
         Loading_Message.SetActive(status);
+        
     }
 
 

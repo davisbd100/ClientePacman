@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/game_multiplayer.unity
     guid: 6f701957b3983ed40a319a482134e5d0
+  - enabled: 1
+    path: Assets/Scenes/Register.unity
+    guid: f766ddb4680731f47a8b6cffb069b496
+  - enabled: 1
+    path: Assets/Scenes/Confirmacion.unity
+    guid: 9a6ed69a56e859d4bac92238df014588
+  - enabled: 1
+    path: Assets/Scenes/login.unity
+    guid: 269bd56a897f5a541b4ef2f6d67efcef
   m_configObjects: {}
