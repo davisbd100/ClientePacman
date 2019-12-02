@@ -6,8 +6,9 @@ public class PacmanCollision : MonoBehaviour
 {
     public void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "Pacman(Clone)")
+        if (other.name == "front")
         {
+
         }
     }
 }
