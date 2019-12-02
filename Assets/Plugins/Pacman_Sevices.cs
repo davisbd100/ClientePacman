@@ -125,6 +125,12 @@ namespace Pacman_Sevices
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         ExistingRecord = 3,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        WrongCredentials = 4,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        ConfirmationIsFalse = 5,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -371,8 +377,6 @@ public partial class ChatServiceClient : System.ServiceModel.DuplexClientBase<IC
     {
     }
     
-
-    
     public ChatServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
             base(callbackInstance, endpointConfigurationName, remoteAddress)
     {
@@ -420,10 +424,16 @@ public interface ILoginService
 {
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILoginService/ValidateUser", ReplyAction="http://tempuri.org/ILoginService/ValidateUserResponse")]
-    int ValidateUser(Pacman_Sevices.ILoginServiceUsuario usuario);
+    Pacman_Sevices.DBOperationResultAddResult ValidateUser(Pacman_Sevices.ILoginServiceUsuario usuario);
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILoginService/ValidateUser", ReplyAction="http://tempuri.org/ILoginService/ValidateUserResponse")]
-    System.Threading.Tasks.Task<int> ValidateUserAsync(Pacman_Sevices.ILoginServiceUsuario usuario);
+    System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> ValidateUserAsync(Pacman_Sevices.ILoginServiceUsuario usuario);
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILoginService/GetEmail", ReplyAction="http://tempuri.org/ILoginService/GetEmailResponse")]
+    string GetEmail(Pacman_Sevices.ILoginServiceUsuario usuario);
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/ILoginService/GetEmail", ReplyAction="http://tempuri.org/ILoginService/GetEmailResponse")]
+    System.Threading.Tasks.Task<string> GetEmailAsync(Pacman_Sevices.ILoginServiceUsuario usuario);
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -460,14 +470,24 @@ public partial class LoginServiceClient : System.ServiceModel.ClientBase<ILoginS
     {
     }
     
-    public int ValidateUser(Pacman_Sevices.ILoginServiceUsuario usuario)
+    public Pacman_Sevices.DBOperationResultAddResult ValidateUser(Pacman_Sevices.ILoginServiceUsuario usuario)
     {
         return base.Channel.ValidateUser(usuario);
     }
     
-    public System.Threading.Tasks.Task<int> ValidateUserAsync(Pacman_Sevices.ILoginServiceUsuario usuario)
+    public System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> ValidateUserAsync(Pacman_Sevices.ILoginServiceUsuario usuario)
     {
         return base.Channel.ValidateUserAsync(usuario);
+    }
+    
+    public string GetEmail(Pacman_Sevices.ILoginServiceUsuario usuario)
+    {
+        return base.Channel.GetEmail(usuario);
+    }
+    
+    public System.Threading.Tasks.Task<string> GetEmailAsync(Pacman_Sevices.ILoginServiceUsuario usuario)
+    {
+        return base.Channel.GetEmailAsync(usuario);
     }
 }
 

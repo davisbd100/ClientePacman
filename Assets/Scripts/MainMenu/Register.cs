@@ -29,12 +29,11 @@ public class Register : MonoBehaviour
     {
         if (CheckEmpty() == true && Validations() == true)
         {
-            if (DoRegisterAsync().Wait(15))
+            if (DoRegisterAsync().Wait(30))
             {
                 ShowMessage(ConectionError_Message);
             }
         }
-
 
     }
 
@@ -85,7 +84,7 @@ public class Register : MonoBehaviour
         UtilitiesHash utilitiesHash = new UtilitiesHash();
         RegisterServiceClient register;
         register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
-        IRegisterServiceJugador player = new IRegisterServiceJugador();
+        IRegisterServiceJugador player = new IRegisterServiceJugador();        
         player.Correo = Email_InputField.text;
         player.Nombre = Name_InputField.text;
         player.Username = User_InputField.text;
