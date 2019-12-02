@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class PlayerControllerTS : NetworkBehaviour
+public class GhostControllerTS : NetworkBehaviour
 {
     public float speed = 0.1f;
     Vector2 _dest = Vector2.zero;
