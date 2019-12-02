@@ -10,6 +10,8 @@ public class PlayerControllerTS : NetworkBehaviour
     Vector2 _dest = Vector2.zero;
     Vector2 _dir = Vector2.zero;
     Vector2 _nextDir = Vector2.zero;
+    public GameObject backCollider;
+    public GameObject frontCollider;
 
     public AudioSource deathSound;
 
@@ -118,7 +120,7 @@ public class PlayerControllerTS : NetworkBehaviour
         Vector2 pos = transform.position;
         direction += new Vector2(direction.x * 0.45f, direction.y * 0.45f);
         RaycastHit2D hit = Physics2D.Linecast(pos + direction, pos);
-        return hit.collider.name == "Pacman(Clone)" || (hit.collider == GetComponent<Collider2D>());
+        return hit.collider.name == "pacdot" || (hit.collider == GetComponent<Collider2D>());
     }
 
     public void ResetDestination()
@@ -147,18 +149,26 @@ public class PlayerControllerTS : NetworkBehaviour
         if (Input.GetAxis("Horizontal") > 0)
         {
             _nextDir = Vector2.right;
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         if (Input.GetAxis("Horizontal") < 0)
         {
             _nextDir = -Vector2.right;
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
         }
         if (Input.GetAxis("Vertical") > 0)
         {
             _nextDir = Vector2.up;
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 90);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 90);
         }
         if (Input.GetAxis("Vertical") < 0)
         {
             _nextDir = -Vector2.up;
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 270);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 270);
         }
 
         if (Vector2.Distance(_dest, transform.position) < 0.00001f)
