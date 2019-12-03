@@ -74,6 +74,7 @@ public class Confirmation : MonoBehaviour
         if (status)
         {
             ShowMessage(Done_Message);
+            SceneManager.LoadScene("menuLogIn");
         }
 
     }

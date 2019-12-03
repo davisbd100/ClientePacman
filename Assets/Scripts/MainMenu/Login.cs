@@ -23,22 +23,17 @@ public class Login : MonoBehaviour
 
     public void Log_in()
     {
-        bool IsLoginTaskDone = false;
-        if(CheckEmpty() && Validations())
+
+        if (CheckEmpty() && Validations())
         {
             if (LoginAsync().Wait(30))
             {
-                ShowMessage(ConectionError_Message);   
-            }
-            IsLoginTaskDone = false;
-        }
-        if (IsLoginTaskDone == true)
-        {
-            Checkstatus();
-            LoginStatus.Status = LoginStatus.EloginStatus.Clear;
-        }
+                ShowMessage(ConectionError_Message);
 
+            }
+        }
     }
+
 
     public async Task LoginAsync()
     {
@@ -65,12 +60,15 @@ public class Login : MonoBehaviour
             LoadingMessageStatus(false);
         }
         LoadingMessageStatus(false);
-        
+
+        Checkstatus();
+        LoginStatus.Status = LoginStatus.EloginStatus.Clear;
+
     }
 
     public Task DoLogin()
     {
-        Debug.Log("Pasé por aquí");
+        LoginStatus.Status = LoginStatus.EloginStatus.NoLogin;
         UtilitiesHash utilitiesHash = new UtilitiesHash();
         LoginServiceClient login;
         login = new LoginServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/LoginService"));
@@ -84,6 +82,7 @@ public class Login : MonoBehaviour
             {
                 case DBOperationResultAddResult.WrongCredentials:
                     LoginStatus.Status = LoginStatus.EloginStatus.WrongCredentials;
+                    Debug.Log("en los cases");
                     break;
                 case DBOperationResultAddResult.ConfirmationIsFalse:
                     LoginStatus.Status = LoginStatus.EloginStatus.NotConfirmed;
@@ -95,7 +94,8 @@ public class Login : MonoBehaviour
                     LoginStatus.Status = LoginStatus.EloginStatus.Succces;
                     CurrentPlayer.Username = usuario.Username;
                     break;
-            }            
+
+            }
         }
         catch (SocketException)
         {
@@ -106,6 +106,7 @@ public class Login : MonoBehaviour
             throw new TimeoutException();
         }
         return Task.CompletedTask;
+        
     }
 
 
@@ -118,6 +119,7 @@ public class Login : MonoBehaviour
         {
             result = false;
             ShowMessage(Wrong_Credentials);
+            Debug.Log("En la validación xd");
         }
         else
         {
@@ -143,23 +145,30 @@ public class Login : MonoBehaviour
         return result;
     }
 
+    
     private void Checkstatus()
     {
         if (LoginStatus.Status == LoginStatus.EloginStatus.WrongCredentials)
         {
-           ShowMessage(Wrong_Credentials);
+            ShowMessage(Wrong_Credentials);
+            Debug.Log("en el status");
         }
         else if (LoginStatus.Status == LoginStatus.EloginStatus.NotConfirmed)
         {
-            Debug.Log("Confirm code");
+            Debug.Log("notConfirmed");
+            SceneManager.LoadScene("Confirmacion");
         }
         else if (LoginStatus.Status == LoginStatus.EloginStatus.Succces)
         {
-
-            Debug.Log("Sesión iniciada");
-            Debug.Log(CurrentPlayer.Username);
+            Debug.Log("Confirmed");
+            SceneManager.LoadScene("menuLogIn");
+        }
+        else if(LoginStatus.Status == LoginStatus.EloginStatus.NoLogin)
+        {
+            ShowMessage(ConectionError_Message);
         }
     }
+    
 
     public void ShowMessage(GameObject window)
     {
