@@ -12,6 +12,7 @@ public class PlayerControllerTS : NetworkBehaviour
     Vector2 _nextDir = Vector2.zero;
     public GameObject backCollider;
     public GameObject frontCollider;
+    public bool death = false;
 
     public AudioSource deathSound;
 
@@ -39,27 +40,19 @@ public class PlayerControllerTS : NetworkBehaviour
         NM = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         if (isLocalPlayer)
         {
-            Camera.main.transform.LookAt(this.transform);
-            Camera.main.transform.parent = this.transform;
+            setCamera();
         }
         _dest = transform.position;
     }
-
-    //This method saves the camera from a certain dead
-    private void OnDestroy()
-    {
-        if (isLocalPlayer)
-        {
-            ResetCamera();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            NetworkServer.Spawn(gameObject);
-        }
-    }
-    // Update is called once per frame
+    // Methods of Movement and predicment movement
     void FixedUpdate()
     {
         GameManagerTS.gameState = GameManagerTS.GameState.Game;
         if (!isLocalPlayer)
+        {
+            return;
+        }
+        if (death)
         {
             return;
         }
@@ -76,71 +69,6 @@ public class PlayerControllerTS : NetworkBehaviour
                     StartCoroutine("PlayDeadAnimation");
                 break;
         }
-
-
-    }
-    public void loadScene()
-    {
-        if (isLocalPlayer)
-        {
-            ResetCamera();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            CmdRespawnSvr();
-        }
-    }
-
-    IEnumerator PlayDeadAnimation()
-    {
-        _deadPlaying = true;
-        GetComponent<Animator>().SetBool("Die", true);
-        deathSound.Play();
-        yield return new WaitForSeconds(2);
-        GetComponent<Animator>().SetBool("Die", false);
-        _deadPlaying = false;
-
-        if (GameManagerTS.lives <= 0)
-        {
-            //Cuando muera
-        }
-        else
-        {
-            GM.ResetScene();
-        }
-    }
-
-    void Animate()
-    {
-        Vector2 dir = _dest - (Vector2)transform.position;
-        GetComponent<Animator>().SetFloat("DirX", dir.x);
-        GetComponent<Animator>().SetFloat("DirY", dir.y);
-    }
-
-    bool Valid(Vector2 direction)
-    {
-        Vector2 pos = transform.position;
-        direction += new Vector2(direction.x * 0.45f, direction.y * 0.45f);
-        RaycastHit2D hit = Physics2D.Linecast(pos + direction, pos);
-        return hit.collider.name == "pacdot" || (hit.collider == GetComponent<Collider2D>());
-    }
-
-    public void ResetDestination()
-    {
-        _dest = new Vector2(0.5f, -1.5f);
-        GetComponent<Animator>().SetFloat("DirX", 1);
-        GetComponent<Animator>().SetFloat("DirY", 0);
-    }
-    public void getKilled()
-    {
-        NetworkServer.UnSpawn(gameObject);
-        loadScene();
-    }
-    public void ResetCamera()
-    {
-        transform.DetachChildren();
-        GameObject.Find("Main Camera").GetComponent<Camera>().enabled = true;
-        GameObject.Find("Main Camera").GetComponent<AudioListener>().enabled = true;
-        GameObject.Find("Main Camera").GetComponent<CameraFollow>().enabled = true;
-        Camera.main.transform.LookAt(GameObject.Find("PacmanSpawn").transform.position);
     }
     void ReadInputAndMove()
     {
@@ -191,19 +119,80 @@ public class PlayerControllerTS : NetworkBehaviour
         return _dir;
     }
 
+    bool Valid(Vector2 direction)
+    {
+        Vector2 pos = transform.position;
+        direction += new Vector2(direction.x * 0.45f, direction.y * 0.45f);
+        RaycastHit2D hit = Physics2D.Linecast(pos + direction, pos);
+        return hit.collider.name == "pacdot" || hit.collider.name == "back" || (hit.collider == GetComponent<Collider2D>());
+    }
+
+    // Animation methods
+    IEnumerator PlayDeadAnimation()
+    {
+        _deadPlaying = true;
+        GetComponent<Animator>().SetBool("Die", true);
+        deathSound.Play();
+        yield return new WaitForSeconds(2);
+        GetComponent<Animator>().SetBool("Die", false);
+        _deadPlaying = false;
+
+    }
+
+    void Animate()
+    {
+        Vector2 dir = _dest - (Vector2)transform.position;
+        GetComponent<Animator>().SetFloat("DirX", dir.x);
+        GetComponent<Animator>().SetFloat("DirY", dir.y);
+    }
+    // Camera Methods
+    public void setCamera()
+    {
+        Camera.main.transform.LookAt(transform);
+        Camera.main.transform.parent = transform;
+        Camera.main.transform.position = transform.position;
+        transform.Find("Main Camera").transform.SetPositionAndRotation(new Vector3(transform.position.x, transform.position.y, -5), Quaternion.Euler(0, 0, 0));
+    }
+    private void OnDestroy()
+    {
+        if (isLocalPlayer)
+        {
+            ResetCamera();
+        }
+    }
+    public void PositionDead()
+    {
+        if (isLocalPlayer)
+        {
+            _dest = new Vector2(-45.5f, 2.5f);
+            transform.position = new Vector2(-45.5f, 2.5f);
+            GetComponent<Animator>().SetFloat("DirX", 1);
+            GetComponent<Animator>().SetFloat("DirY", 0);
+            ResetCamera();
+            GameObject camera = GameObject.Find("Main Camera");
+            camera.transform.position = new Vector3(2f, -7.75f, -5);
+            camera.GetComponent<Camera>().orthographicSize = 22.5f;
+            death = true;
+        }
+        
+    }
+    public void ResetCamera()
+    {
+        transform.Find("Main Camera").transform.parent = null;
+        GameObject camera = GameObject.Find("Main Camera");
+        camera.GetComponent<Camera>().enabled = true;
+        camera.GetComponent<AudioListener>().enabled = true;
+        camera.GetComponent<CameraFollow>().enabled = true;
+        camera.transform.position = new Vector3(0, 0, -5);
+        camera.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+    }
+
     public void UpdateScore()
     {
         killstreak++;
         if (killstreak > 4) killstreak = 4;
         Instantiate(points.pointSprites[killstreak - 1], transform.position, Quaternion.identity);
         GameManagerTS.score += (int)Mathf.Pow(2, killstreak) * 100;
-    }
-    [Command]
-    void CmdRespawnSvr()
-    {
-        var spawn = NetworkManager.singleton.GetStartPosition();
-        var newPlayer = (GameObject)Instantiate(NetworkManager.singleton.playerPrefab, spawn.position, spawn.rotation);
-        NetworkServer.Destroy(this.gameObject);
-        NetworkServer.ReplacePlayerForConnection(this.connectionToClient, newPlayer, this.playerControllerId);
     }
 }

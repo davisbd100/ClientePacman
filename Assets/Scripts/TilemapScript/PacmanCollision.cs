@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class PacmanCollision : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PacmanCollision : MonoBehaviour
     {
         if (other.name == "front")
         {
-
+            transform.parent.GetComponent<PlayerControllerTS>().PositionDead();
         }
     }
 }

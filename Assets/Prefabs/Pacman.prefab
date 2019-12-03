@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5671835651572378367}
   - component: {fileID: 3193625952932890818}
-  - component: {fileID: 4467628162383172661}
+  - component: {fileID: 4791700999991972419}
   m_Layer: 0
   m_Name: back
   m_TagString: Untagged
@@ -45,7 +45,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.5, y: 0}
+  m_Offset: {x: -0.62, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -56,9 +56,9 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.03, y: 0.51}
+  m_Size: {x: 0.27, y: 0.51}
   m_EdgeRadius: 0
---- !u!114 &4467628162383172661
+--- !u!114 &4791700999991972419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,6 +307,7 @@ MonoBehaviour:
   speed: 0.1
   backCollider: {fileID: 1606116095579444658}
   frontCollider: {fileID: 8837852826787183290}
+  death: 0
   deathSound: {fileID: 0}
   points:
     pointSprites: []
@@ -324,7 +325,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 5671835651572378367}
   m_ChildIndex: 0
-  m_SendInterval: 0.1
+  m_SendInterval: 0.09090909
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
@@ -344,7 +345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 5266319585041973691}
   m_ChildIndex: 1
-  m_SendInterval: 0.1
+  m_SendInterval: 0.09090909
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
   m_MovementThreshold: 0.001
