@@ -20,6 +20,8 @@ public static class LoginStatus
         WrongCredentials,
         NotConfirmed,
         Succces,
-        Clear
+        Clear,
+        NoLogin
+        
     }
 }
