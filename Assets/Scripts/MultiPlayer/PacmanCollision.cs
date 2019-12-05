@@ -10,6 +10,8 @@ public class PacmanCollision : MonoBehaviour
         if (other.name == "front")
         {
             transform.parent.GetComponent<PlayerControllerTS>().PositionDead();
+            transform.parent.GetComponent<PlayerControllerTS>().UpdateScoreDeaths();
+            other.transform.parent.GetComponent<PlayerControllerTS>().UpdateScoreKills();
         }
     }
 }

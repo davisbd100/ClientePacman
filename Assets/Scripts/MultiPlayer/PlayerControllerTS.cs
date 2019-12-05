@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerControllerTS : NetworkBehaviour
 {
@@ -13,6 +13,8 @@ public class PlayerControllerTS : NetworkBehaviour
     public GameObject backCollider;
     public GameObject frontCollider;
     public bool death = false;
+    [SyncVar] public int kills;
+    [SyncVar] public int deaths;
 
     public AudioSource deathSound;
 
@@ -44,7 +46,7 @@ public class PlayerControllerTS : NetworkBehaviour
         }
         _dest = transform.position;
     }
-    // Methods of Movement and predicment movement
+    // Methods of Movement and prediment movement
     void FixedUpdate()
     {
         GameManagerTS.gameState = GameManagerTS.GameState.Game;
@@ -52,6 +54,7 @@ public class PlayerControllerTS : NetworkBehaviour
         {
             return;
         }
+        UpdateScore();
         if (death)
         {
             return;
@@ -59,9 +62,9 @@ public class PlayerControllerTS : NetworkBehaviour
         switch (GameManagerTS.gameState)
         {
             case GameManagerTS.GameState.Game:
-
                 ReadInputAndMove();
                 Animate();
+                MoveCollider();
                 break;
 
             case GameManagerTS.GameState.Dead:
@@ -74,17 +77,14 @@ public class PlayerControllerTS : NetworkBehaviour
     {
         Vector2 p = Vector2.MoveTowards(transform.position, _dest, speed);
         GetComponent<Rigidbody2D>().MovePosition(p);
+        MoveCollider();
         if (Input.GetAxis("Horizontal") > 0)
         {
             _nextDir = Vector2.right;
-            backCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
-            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         if (Input.GetAxis("Horizontal") < 0)
         {
             _nextDir = -Vector2.right;
-            backCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
-            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
         }
         if (Input.GetAxis("Vertical") > 0)
         {
@@ -113,7 +113,33 @@ public class PlayerControllerTS : NetworkBehaviour
             }
         }
     }
-
+    public void MoveCollider()
+    {
+        if (_dir == Vector2.zero)
+        {
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }else if (_dir == new Vector2(1,0))
+        {
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (_dir == new Vector2(-1, 0))
+        {
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 180);
+        }
+        else if (_dir == new Vector2(0, 1))
+        {
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 90);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else if (_dir == new Vector2(0, -1))
+        {
+            backCollider.transform.rotation = Quaternion.Euler(0, 0, 270);
+            frontCollider.transform.rotation = Quaternion.Euler(0, 0, 270);
+        }
+    }
     public Vector2 getDir()
     {
         return _dir;
@@ -124,9 +150,19 @@ public class PlayerControllerTS : NetworkBehaviour
         Vector2 pos = transform.position;
         direction += new Vector2(direction.x * 0.45f, direction.y * 0.45f);
         RaycastHit2D hit = Physics2D.Linecast(pos + direction, pos);
-        return hit.collider.name == "pacdot" || hit.collider.name == "back" || (hit.collider == GetComponent<Collider2D>());
+        if (hit.collider.name == "back")
+        {
+            if (hit.collider.GetInstanceID() == transform.Find("back").GetComponent<Collider2D>().GetInstanceID())
+            {
+                return true;
+            }
+        }
+        return hit.collider.name == "pacdot" || (hit.collider == GetComponent<Collider2D>());
     }
-
+    public void UpdateScore()
+    {
+        GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().text = kills + "/" + deaths;
+    }
     // Animation methods
     IEnumerator PlayDeadAnimation()
     {
@@ -138,12 +174,17 @@ public class PlayerControllerTS : NetworkBehaviour
         _deadPlaying = false;
 
     }
-
     void Animate()
     {
         Vector2 dir = _dest - (Vector2)transform.position;
         GetComponent<Animator>().SetFloat("DirX", dir.x);
         GetComponent<Animator>().SetFloat("DirY", dir.y);
+    }
+    IEnumerator respawnTimer()
+    {
+        Debug.Log("Esperando 10s para reaparecer");
+        yield return new WaitForSeconds(10);
+        PositionAlive();
     }
     // Camera Methods
     public void setCamera()
@@ -151,6 +192,7 @@ public class PlayerControllerTS : NetworkBehaviour
         Camera.main.transform.LookAt(transform);
         Camera.main.transform.parent = transform;
         Camera.main.transform.position = transform.position;
+        transform.Find("Main Camera").GetComponent<Camera>().orthographicSize = 5f;
         transform.Find("Main Camera").transform.SetPositionAndRotation(new Vector3(transform.position.x, transform.position.y, -5), Quaternion.Euler(0, 0, 0));
     }
     private void OnDestroy()
@@ -164,7 +206,6 @@ public class PlayerControllerTS : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            _dest = new Vector2(-45.5f, 2.5f);
             transform.position = new Vector2(-45.5f, 2.5f);
             GetComponent<Animator>().SetFloat("DirX", 1);
             GetComponent<Animator>().SetFloat("DirY", 0);
@@ -173,8 +214,28 @@ public class PlayerControllerTS : NetworkBehaviour
             camera.transform.position = new Vector3(2f, -7.75f, -5);
             camera.GetComponent<Camera>().orthographicSize = 22.5f;
             death = true;
+            StartCoroutine("respawnTimer");
         }
         
+    }
+    public void PositionAlive()
+    {
+        if (isLocalPlayer)
+        {
+            GameObject[] spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            Vector3 respawnPosition = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length - 1)].transform.position;
+            _dest = respawnPosition;
+            transform.position = respawnPosition;
+            _nextDir = Vector2.zero;
+            GetComponent<Animator>().SetFloat("DirX", 1);
+            GetComponent<Animator>().SetFloat("DirY", 0);
+            setCamera();
+            death = false;
+        }
+    }
+    IEnumerator DisableWhileRespawn()
+    {
+        yield return new WaitForSeconds(1);
     }
     public void ResetCamera()
     {
@@ -185,14 +246,23 @@ public class PlayerControllerTS : NetworkBehaviour
         camera.GetComponent<CameraFollow>().enabled = true;
         camera.transform.position = new Vector3(0, 0, -5);
         camera.transform.rotation = Quaternion.Euler(0, 0, 0);
-
     }
 
-    public void UpdateScore()
+    public void UpdateScoreKills()
     {
-        killstreak++;
-        if (killstreak > 4) killstreak = 4;
-        Instantiate(points.pointSprites[killstreak - 1], transform.position, Quaternion.identity);
-        GameManagerTS.score += (int)Mathf.Pow(2, killstreak) * 100;
+        kills++;
+    }
+    public void UpdateScoreDeaths()
+    {
+        if (isLocalPlayer)
+        {
+            deaths++;
+        }
+    }
+    public override void OnNetworkDestroy()
+    {
+        kills = 0;
+        deaths = 0;
+        //Debug.Log("Actualizar score");
     }
 }
