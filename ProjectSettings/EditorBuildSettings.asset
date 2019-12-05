@@ -12,17 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/game_singleplayer.unity
     guid: 9e9224b41a251ad4aa4213392f1b76cc
   - enabled: 0
-    path: Assets/Scenes/game_multiplayer.unity
-    guid: 6f701957b3983ed40a319a482134e5d0
+    path: Assets/Scenes/lobby.unity
+    guid: 4792c38d917a4164f8623721083aa8ab
   - enabled: 1
-    path: Assets/Scenes/PacmanTilemap.unity
+    path: Assets/Scenes/PacmanMultiplayer.unity
     guid: 313964ba0ddb97b43bf876eaa1515f64
   - enabled: 0
     path: Assets/Scenes/Register.unity
     guid: f766ddb4680731f47a8b6cffb069b496
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/login.unity
     guid: 269bd56a897f5a541b4ef2f6d67efcef
