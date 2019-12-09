@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/IPDireccion.unity
+    guid: 426d76d7fd46b7b4ab23525b87080ea9
+  - enabled: 1
     path: Assets/Scenes/menu.unity
     guid: 77bed067c36f69840b9496388ef7fe3b
   - enabled: 1
@@ -15,11 +18,11 @@ EditorBuildSettings:
     path: Assets/Scenes/lobby.unity
     guid: 4792c38d917a4164f8623721083aa8ab
   - enabled: 1
-    path: Assets/Scenes/PacmanMultiplayer.unity
-    guid: 313964ba0ddb97b43bf876eaa1515f64
-  - enabled: 1
     path: Assets/Scenes/Register.unity
     guid: f766ddb4680731f47a8b6cffb069b496
+  - enabled: 1
+    path: Assets/Scenes/Confirmacion.unity
+    guid: 78b66c48bcdc3224b8ac5cf0129e1eec
   - enabled: 1
     path: Assets/Scenes/login.unity
     guid: 269bd56a897f5a541b4ef2f6d67efcef
@@ -27,6 +30,6 @@ EditorBuildSettings:
     path: Assets/Scenes/menuLogIn.unity
     guid: ed2892bd02f66e24eba2c1f44945631b
   - enabled: 1
-    path: Assets/Scenes/Confirmacion.unity
-    guid: 78b66c48bcdc3224b8ac5cf0129e1eec
+    path: Assets/Scenes/PacmanMultiplayer.unity
+    guid: 313964ba0ddb97b43bf876eaa1515f64
   m_configObjects: {}

@@ -80,7 +80,7 @@ public class Register : MonoBehaviour
         System.Random generator = new System.Random();
         UtilitiesHash utilitiesHash = new UtilitiesHash();
         RegisterServiceClient register;
-        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
+        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/RegisterServices"));
         IRegisterServiceJugador player = new IRegisterServiceJugador();        
         player.Correo = Email_InputField.text;
         player.Nombre = Name_InputField.text;
@@ -98,7 +98,6 @@ public class Register : MonoBehaviour
                         SendEmail(player);
                         break;
                     case DBOperationResultAddResult.SQLError:
-                        Debug.Log("sql error");
                         throw new TimeoutException();
                     case DBOperationResultAddResult.NullObject:
                         throw new SocketException();
@@ -131,7 +130,7 @@ public class Register : MonoBehaviour
     {
         bool result = false;
         RegisterServiceClient register;
-        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
+        register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/RegisterServices"));
         IRegisterServiceJugador player = jugador;
 
         switch (register.SerachUserInDB(player))
@@ -156,7 +155,7 @@ public class Register : MonoBehaviour
     private void SendEmail(IRegisterServiceJugador jugador)
     {
         ConfirmationServicesClient confirmation;
-        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ConfirmationServices"));
+        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/ConfirmationServices"));
         IConfirmationServicesJugador player = new IConfirmationServicesJugador();
         player.Correo = jugador.Correo;
         player.Código = jugador.Código;

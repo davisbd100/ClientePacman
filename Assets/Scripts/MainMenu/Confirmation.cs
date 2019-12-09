@@ -118,7 +118,7 @@ public class Confirmation : MonoBehaviour
     public Task Confirm()
     {
         ConfirmationServicesClient confirmation;
-        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ConfirmationServices"));
+        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/ConfirmationServices"));
         IConfirmationServicesJugador jugador = new IConfirmationServicesJugador();
         jugador.Código = Code_InputField.text;
         jugador.Correo = CurrentPlayer.Email;
@@ -155,7 +155,7 @@ public class Confirmation : MonoBehaviour
     {
         System.Random generator = new System.Random();
         ConfirmationServicesClient confirmation;
-        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ConfirmationServices"));
+        confirmation = new ConfirmationServicesClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/ConfirmationServices"));
         IConfirmationServicesJugador jugador = new IConfirmationServicesJugador();
         jugador.Código = generator.Next(0, 999999).ToString("D6");
         jugador.Correo = CurrentPlayer.Email;

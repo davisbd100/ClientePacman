@@ -71,7 +71,7 @@ public class Login : MonoBehaviour
         LoginStatus.Status = LoginStatus.EloginStatus.NoLogin;
         UtilitiesHash utilitiesHash = new UtilitiesHash();
         LoginServiceClient login;
-        login = new LoginServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/LoginService"));
+        login = new LoginServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/LoginService"));
         ILoginServiceUsuario usuario = new ILoginServiceUsuario();
         usuario.Username = User_InputField.text;
         usuario.Password = utilitiesHash.PassHash(Password_InputField.text);
@@ -111,52 +111,6 @@ public class Login : MonoBehaviour
         }
         return Task.CompletedTask;
         
-    }
-
-    public void validateUser()
-    {
-        LoginStatus.Status = LoginStatus.EloginStatus.NoLogin;
-        UtilitiesHash utilitiesHash = new UtilitiesHash();
-        LoginServiceClient login;
-        login = new LoginServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/LoginService"));
-        ILoginServiceUsuario usuario = new ILoginServiceUsuario();
-        usuario.Username = User_InputField.text;
-        usuario.Password = utilitiesHash.PassHash(Password_InputField.text);
-        Debug.Log(usuario.Password);
-        try
-        {
-            switch (login.ValidateUser(usuario))
-            {
-                case DBOperationResultAddResult.WrongCredentials:
-                    LoginStatus.Status = LoginStatus.EloginStatus.WrongCredentials;
-                    Debug.Log("en los cases");
-                    break;
-                case DBOperationResultAddResult.ConfirmationIsFalse:
-                    LoginStatus.Status = LoginStatus.EloginStatus.NotConfirmed;
-                    CurrentPlayer.Email = login.GetEmail(usuario);
-                    CurrentPlayer.Username = usuario.Username;
-                    Debug.Log(CurrentPlayer.Email);
-                    break;
-                case DBOperationResultAddResult.Success:
-                    LoginStatus.Status = LoginStatus.EloginStatus.Succces;
-                    CurrentPlayer.Username = usuario.Username;
-                    break;
-                case DBOperationResultAddResult.SQLError:
-                    throw new TimeoutException();
-                case DBOperationResultAddResult.NullObject:
-                    throw new TimeoutException();
-
-            }
-        }
-        catch (SocketException)
-        {
-            throw new SocketException();
-        }
-        catch (TimeoutException)
-        {
-            throw new TimeoutException();
-        }
-        Checkstatus();
     }
 
     private bool Validations()

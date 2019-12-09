@@ -7,7 +7,7 @@ public static class CurrentPlayer
     public static string Username { get; set; }
     public static string Email { get; set; }
     public static string Código { get; set; }
-
+    public static string IPDirection { get; set; }
 
 }
 
