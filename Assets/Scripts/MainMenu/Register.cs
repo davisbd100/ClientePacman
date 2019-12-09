@@ -92,14 +92,24 @@ public class Register : MonoBehaviour
         {
             if (CheckInDb(player))
             {
-                register.AddUser(player);
-                SendEmail(player);
+                switch (register.AddUser(player))
+                {
+                    case DBOperationResultAddResult.Success:
+                        SendEmail(player);
+                        break;
+                    case DBOperationResultAddResult.SQLError:
+                        Debug.Log("sql error");
+                        throw new TimeoutException();
+                    case DBOperationResultAddResult.NullObject:
+                        throw new SocketException();
+                    
+                }
             }
         }
         catch (SocketException)
         {
             throw new SocketException();
-            
+
         }
         catch (TimeoutException)
         {
@@ -119,19 +129,27 @@ public class Register : MonoBehaviour
 
     private bool CheckInDb(IRegisterServiceJugador jugador)
     {
-        bool result;
+        bool result = false;
         RegisterServiceClient register;
         register = new RegisterServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/RegisterServices"));
         IRegisterServiceJugador player = jugador;
 
-        if (register.SerachUserInDB(player) == DBOperationResultAddResult.Success)
+        switch (register.SerachUserInDB(player))
         {
-            result = true;
+            case DBOperationResultAddResult.Success:
+                result = true;
+                break;
+            case DBOperationResultAddResult.ExistingRecord:
+                Debug.Log("entra aquí");
+                throw new DuplicateRecordException();
+            case DBOperationResultAddResult.SQLError:
+                Debug.Log("sql error");
+                throw new TimeoutException();
+            case DBOperationResultAddResult.NullObject:
+                throw new SocketException();
+
         }
-        else
-        {
-            throw new DuplicateRecordException();
-        }
+        
         return result;
     }
 

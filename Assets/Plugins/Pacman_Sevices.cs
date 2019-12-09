@@ -131,6 +131,9 @@ namespace Pacman_Sevices
         
         [System.Runtime.Serialization.EnumMemberAttribute()]
         ConfirmationIsFalse = 5,
+        
+        [System.Runtime.Serialization.EnumMemberAttribute()]
+        SQLError = 6,
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
@@ -377,6 +380,7 @@ public partial class ChatServiceClient : System.ServiceModel.DuplexClientBase<IC
     {
     }
     
+ 
     public ChatServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
             base(callbackInstance, endpointConfigurationName, remoteAddress)
     {
@@ -503,16 +507,16 @@ public interface IConfirmationServices
     System.Threading.Tasks.Task<int> SendEmailAsync(Pacman_Sevices.IConfirmationServicesJugador jugador);
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConfirmationServices/GenerateNewCode", ReplyAction="http://tempuri.org/IConfirmationServices/GenerateNewCodeResponse")]
-    int GenerateNewCode(Pacman_Sevices.IConfirmationServicesJugador jugador);
+    Pacman_Sevices.DBOperationResultAddResult GenerateNewCode(Pacman_Sevices.IConfirmationServicesJugador jugador);
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConfirmationServices/GenerateNewCode", ReplyAction="http://tempuri.org/IConfirmationServices/GenerateNewCodeResponse")]
-    System.Threading.Tasks.Task<int> GenerateNewCodeAsync(Pacman_Sevices.IConfirmationServicesJugador jugador);
+    System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> GenerateNewCodeAsync(Pacman_Sevices.IConfirmationServicesJugador jugador);
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConfirmationServices/ChangeConfirmationStatus", ReplyAction="http://tempuri.org/IConfirmationServices/ChangeConfirmationStatusResponse")]
-    int ChangeConfirmationStatus(Pacman_Sevices.IConfirmationServicesJugador jugador);
+    Pacman_Sevices.DBOperationResultAddResult ChangeConfirmationStatus(Pacman_Sevices.IConfirmationServicesJugador jugador);
     
     [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IConfirmationServices/ChangeConfirmationStatus", ReplyAction="http://tempuri.org/IConfirmationServices/ChangeConfirmationStatusResponse")]
-    System.Threading.Tasks.Task<int> ChangeConfirmationStatusAsync(Pacman_Sevices.IConfirmationServicesJugador jugador);
+    System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> ChangeConfirmationStatusAsync(Pacman_Sevices.IConfirmationServicesJugador jugador);
 }
 
 [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -559,22 +563,22 @@ public partial class ConfirmationServicesClient : System.ServiceModel.ClientBase
         return base.Channel.SendEmailAsync(jugador);
     }
     
-    public int GenerateNewCode(Pacman_Sevices.IConfirmationServicesJugador jugador)
+    public Pacman_Sevices.DBOperationResultAddResult GenerateNewCode(Pacman_Sevices.IConfirmationServicesJugador jugador)
     {
         return base.Channel.GenerateNewCode(jugador);
     }
     
-    public System.Threading.Tasks.Task<int> GenerateNewCodeAsync(Pacman_Sevices.IConfirmationServicesJugador jugador)
+    public System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> GenerateNewCodeAsync(Pacman_Sevices.IConfirmationServicesJugador jugador)
     {
         return base.Channel.GenerateNewCodeAsync(jugador);
     }
     
-    public int ChangeConfirmationStatus(Pacman_Sevices.IConfirmationServicesJugador jugador)
+    public Pacman_Sevices.DBOperationResultAddResult ChangeConfirmationStatus(Pacman_Sevices.IConfirmationServicesJugador jugador)
     {
         return base.Channel.ChangeConfirmationStatus(jugador);
     }
     
-    public System.Threading.Tasks.Task<int> ChangeConfirmationStatusAsync(Pacman_Sevices.IConfirmationServicesJugador jugador)
+    public System.Threading.Tasks.Task<Pacman_Sevices.DBOperationResultAddResult> ChangeConfirmationStatusAsync(Pacman_Sevices.IConfirmationServicesJugador jugador)
     {
         return base.Channel.ChangeConfirmationStatusAsync(jugador);
     }
@@ -594,7 +598,7 @@ namespace DataAccess
         
         private string ConfirmaciónField;
         
-        private string CódigoField;
+        private int CódigoField;
         
         private int IdField;
         
@@ -630,7 +634,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Código
+        public int Código
         {
             get
             {
@@ -711,11 +715,7 @@ namespace DataAccess
         
         private string NombreField;
         
-        private string PantallasGanadasField;
-        
-        private string PuntuaciónField;
-        
-        private string PuntuaciónAltaField;
+        private int PuntuaciónAltaField;
         
         private DataAccess.Ranking RankingField;
         
@@ -786,33 +786,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string PantallasGanadas
-        {
-            get
-            {
-                return this.PantallasGanadasField;
-            }
-            set
-            {
-                this.PantallasGanadasField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Puntuación
-        {
-            get
-            {
-                return this.PuntuaciónField;
-            }
-            set
-            {
-                this.PuntuaciónField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string PuntuaciónAlta
+        public int PuntuaciónAlta
         {
             get
             {
@@ -863,7 +837,7 @@ namespace DataAccess
         
         private DataAccess.Jugador[] JugadorField;
         
-        private string PosicionField;
+        private int PosicionField;
         
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData
         {
@@ -904,7 +878,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Posicion
+        public int Posicion
         {
             get
             {
