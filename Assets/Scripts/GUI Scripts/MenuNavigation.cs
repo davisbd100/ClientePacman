@@ -17,5 +17,6 @@ public class MenuNavigation : MonoBehaviour {
 	public void PlayOnePlayer()
 	{
 		SceneManager.LoadScene("game_singleplayer");
-	}
+        PlayerPrefs.SetString("LoginScene", SceneManager.GetActiveScene().name);
+    }
 }

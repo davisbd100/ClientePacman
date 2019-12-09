@@ -9,5 +9,6 @@ public class menuLogInManager : MonoBehaviour
         CurrentPlayer.Email = null;
         CurrentPlayer.Código = null;
         SceneManager.LoadScene("menu");
+        PlayerPrefs.SetString("LoginScene", SceneManager.GetActiveScene().name);
     }
 }

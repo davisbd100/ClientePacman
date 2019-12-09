@@ -125,7 +125,7 @@ public class GameGUINavigation : MonoBehaviour {
 
 	public void Menu()
     {
-        SceneManager.LoadScene("menu");
+        SceneManager.LoadScene(PlayerPrefs.GetString("LoginScene"));
         Time.timeScale = 1.0f;
 	    GameManager.DestroySelf();
 	}
