@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ServiceModel;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -12,18 +11,25 @@ public partial class Chat_Script : NetworkBehaviour
 {
     // Start is called before the first frame update
     String mensaje;
-    public Text chatText;
+    public GameObject chatPanel;
+    public GameObject textObject;
+    public int maxMessages = 25;
     public InputField inputFieldChat;
+    [SerializeField]
+    List<Message> messages = new List<Message>();
     void Start()
     {
         Connect();
     }
-
+    public void OnDestroy()
+    {
+        Disconnect();
+    }
     void Update()
     {
         if (mensaje != "")
         {
-            chatText.text += "\n" + mensaje;
+            sendMessageToChat(mensaje);
             mensaje = "";
         }
         if (inputFieldChat.isFocused && inputFieldChat.text != "" && Input.GetKey(KeyCode.Return))
@@ -70,9 +76,23 @@ public partial class Chat_Script : IChatServiceCallback
     {
         mensaje = msg;
     }
-    public override void OnNetworkDestroy()
+    public void sendMessageToChat(string mensaje)
     {
-        Debug.Log("Desconecta");
-        Disconnect();
+        if (messages.Count >= maxMessages)
+        {
+            Destroy(messages[0].textObject.gameObject);
+            messages.Remove(messages[0]);
+        }
+        Message newMessage = new Message();
+        newMessage.text = mensaje;
+        GameObject newText = Instantiate(textObject, chatPanel.transform);
+        newMessage.textObject = newText.GetComponent<Text>();
+        newMessage.textObject.text = newMessage.text;
+        messages.Add(newMessage);
+    }
+    public class Message
+    {
+        public String text;
+        public Text textObject;
     }
 }

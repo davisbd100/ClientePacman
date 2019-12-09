@@ -249,6 +249,57 @@ namespace Pacman_Sevices
             }
         }
     }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IScoreService.User", Namespace="http://schemas.datacontract.org/2004/07/Pacman_Sevices")]
+    public partial class IScoreServiceUser : object, System.Runtime.Serialization.IExtensibleDataObject
+    {
+        
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        private string NombreField;
+        
+        private int PuntuaciónField;
+        
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData
+        {
+            get
+            {
+                return this.extensionDataField;
+            }
+            set
+            {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Nombre
+        {
+            get
+            {
+                return this.NombreField;
+            }
+            set
+            {
+                this.NombreField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public int Puntuación
+        {
+            get
+            {
+                return this.PuntuaciónField;
+            }
+            set
+            {
+                this.PuntuaciónField = value;
+            }
+        }
+    }
 }
 
 
@@ -377,10 +428,7 @@ public partial class ChatServiceClient : System.ServiceModel.DuplexClientBase<IC
     {
     }
     
-    public ChatServiceClient(System.ServiceModel.InstanceContext callbackInstance, string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
-            base(callbackInstance, endpointConfigurationName, remoteAddress)
-    {
-    }
+    
     
     public ChatServiceClient(System.ServiceModel.InstanceContext callbackInstance, System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
             base(callbackInstance, binding, remoteAddress)
@@ -579,6 +627,79 @@ public partial class ConfirmationServicesClient : System.ServiceModel.ClientBase
         return base.Channel.ChangeConfirmationStatusAsync(jugador);
     }
 }
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+[System.ServiceModel.ServiceContractAttribute(ConfigurationName="IScoreService")]
+public interface IScoreService
+{
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IScoreService/SetScore", ReplyAction="http://tempuri.org/IScoreService/SetScoreResponse")]
+    bool SetScore(Pacman_Sevices.IScoreServiceUser user, double score);
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IScoreService/SetScore", ReplyAction="http://tempuri.org/IScoreService/SetScoreResponse")]
+    System.Threading.Tasks.Task<bool> SetScoreAsync(Pacman_Sevices.IScoreServiceUser user, double score);
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IScoreService/GetScore", ReplyAction="http://tempuri.org/IScoreService/GetScoreResponse")]
+    int GetScore(Pacman_Sevices.IScoreServiceUser user);
+    
+    [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IScoreService/GetScore", ReplyAction="http://tempuri.org/IScoreService/GetScoreResponse")]
+    System.Threading.Tasks.Task<int> GetScoreAsync(Pacman_Sevices.IScoreServiceUser user);
+}
+
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+public interface IScoreServiceChannel : IScoreService, System.ServiceModel.IClientChannel
+{
+}
+
+[System.Diagnostics.DebuggerStepThroughAttribute()]
+[System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
+public partial class ScoreServiceClient : System.ServiceModel.ClientBase<IScoreService>, IScoreService
+{
+    
+    public ScoreServiceClient()
+    {
+    }
+    
+    public ScoreServiceClient(string endpointConfigurationName) : 
+            base(endpointConfigurationName)
+    {
+    }
+    
+    public ScoreServiceClient(string endpointConfigurationName, string remoteAddress) : 
+            base(endpointConfigurationName, remoteAddress)
+    {
+    }
+    
+    public ScoreServiceClient(string endpointConfigurationName, System.ServiceModel.EndpointAddress remoteAddress) : 
+            base(endpointConfigurationName, remoteAddress)
+    {
+    }
+    
+    public ScoreServiceClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
+            base(binding, remoteAddress)
+    {
+    }
+    
+    public bool SetScore(Pacman_Sevices.IScoreServiceUser user, double score)
+    {
+        return base.Channel.SetScore(user, score);
+    }
+    
+    public System.Threading.Tasks.Task<bool> SetScoreAsync(Pacman_Sevices.IScoreServiceUser user, double score)
+    {
+        return base.Channel.SetScoreAsync(user, score);
+    }
+    
+    public int GetScore(Pacman_Sevices.IScoreServiceUser user)
+    {
+        return base.Channel.GetScore(user);
+    }
+    
+    public System.Threading.Tasks.Task<int> GetScoreAsync(Pacman_Sevices.IScoreServiceUser user)
+    {
+        return base.Channel.GetScoreAsync(user);
+    }
+}
 namespace DataAccess
 {
     using System.Runtime.Serialization;
@@ -594,7 +715,7 @@ namespace DataAccess
         
         private string ConfirmaciónField;
         
-        private string CódigoField;
+        private int CódigoField;
         
         private int IdField;
         
@@ -630,7 +751,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Código
+        public int Código
         {
             get
             {
@@ -711,11 +832,7 @@ namespace DataAccess
         
         private string NombreField;
         
-        private string PantallasGanadasField;
-        
-        private string PuntuaciónField;
-        
-        private string PuntuaciónAltaField;
+        private int PuntuaciónAltaField;
         
         private DataAccess.Ranking RankingField;
         
@@ -786,33 +903,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string PantallasGanadas
-        {
-            get
-            {
-                return this.PantallasGanadasField;
-            }
-            set
-            {
-                this.PantallasGanadasField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Puntuación
-        {
-            get
-            {
-                return this.PuntuaciónField;
-            }
-            set
-            {
-                this.PuntuaciónField = value;
-            }
-        }
-        
-        [System.Runtime.Serialization.DataMemberAttribute()]
-        public string PuntuaciónAlta
+        public int PuntuaciónAlta
         {
             get
             {
@@ -863,7 +954,7 @@ namespace DataAccess
         
         private DataAccess.Jugador[] JugadorField;
         
-        private string PosicionField;
+        private int PosicionField;
         
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData
         {
@@ -904,7 +995,7 @@ namespace DataAccess
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string Posicion
+        public int Posicion
         {
             get
             {
