@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - parentPref
+  - LMManager
+  - pacdot
+  - SpawnPoint
+  - ScoreText
+  - NetworkManager
+  - DeathTime
+  - CounterText
   layers:
   - Default
   - TransparentFX

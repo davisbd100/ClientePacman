@@ -14,8 +14,8 @@ public class MenuNavigation : MonoBehaviour {
 		Application.Quit();
 	}
 	
-	public void Play()
+	public void PlayOnePlayer()
 	{
-		SceneManager.LoadScene("game");
+		SceneManager.LoadScene("game_singleplayer");
 	}
 }
