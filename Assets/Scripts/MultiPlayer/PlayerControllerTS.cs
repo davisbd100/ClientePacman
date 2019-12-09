@@ -153,6 +153,10 @@ public class PlayerControllerTS : NetworkBehaviour
         Vector2 pos = transform.position;
         direction += new Vector2(direction.x * 0.45f, direction.y * 0.45f);
         RaycastHit2D hit = Physics2D.Linecast(pos + direction, pos);
+        if (hit.collider.name == "front")
+        {
+            return (hit.collider == GetComponent<Collider2D>());
+        }
         if (hit.collider.name == "back")
         {
             if (hit.collider.GetInstanceID() == transform.Find("back").GetComponent<Collider2D>().GetInstanceID())
