@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.ServiceModel;
 
 public class PlayerControllerTS : NetworkBehaviour
 {
@@ -42,6 +43,7 @@ public class PlayerControllerTS : NetworkBehaviour
         NM = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         if (isLocalPlayer)
         {
+            GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = true;
             setCamera();
         }
         _dest = transform.position;
@@ -186,6 +188,37 @@ public class PlayerControllerTS : NetworkBehaviour
         yield return new WaitForSeconds(10);
         PositionAlive();
     }
+    IEnumerator respawnCounter()
+    {
+        Debug.Log("Inicia contador");
+        Image deathPanel = GameObject.FindGameObjectWithTag("DeathTime").GetComponent<Image>();
+        Text textCount = GameObject.FindGameObjectWithTag("CounterText").GetComponent<Text>();
+        deathPanel.enabled = true;
+        textCount.enabled = true;
+        textCount.text = "10";
+        yield return new WaitForSeconds(1);
+        textCount.text = "9";
+        yield return new WaitForSeconds(1);
+        textCount.text = "8";
+        yield return new WaitForSeconds(1);
+        textCount.text = "7";
+        yield return new WaitForSeconds(1);
+        textCount.text = "6";
+        yield return new WaitForSeconds(1);
+        textCount.text = "5";
+        yield return new WaitForSeconds(1);
+        textCount.text = "4";
+        yield return new WaitForSeconds(1);
+        textCount.text = "3";
+        yield return new WaitForSeconds(1);
+        textCount.text = "2";
+        yield return new WaitForSeconds(1);
+        textCount.text = "1";
+        yield return new WaitForSeconds(1);
+        deathPanel.enabled = false;
+        textCount.enabled = false;
+        Debug.Log("Termina Contador");
+    }
     // Camera Methods
     public void setCamera()
     {
@@ -200,6 +233,14 @@ public class PlayerControllerTS : NetworkBehaviour
         if (isLocalPlayer)
         {
             ResetCamera();
+            //ScoreServiceClient client = new ScoreServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ScoreService"));
+            //Pacman_Sevices.IScoreServiceUser score = new Pacman_Sevices.IScoreServiceUser();
+            //score.Puntuación = kills;
+            //score.Nombre = CurrentPlayer.Username;
+            //client.SetScore(score, kills);
+            kills = 0;
+            deaths = 0;
+            GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = false;
         }
     }
     public void PositionDead()
@@ -214,6 +255,7 @@ public class PlayerControllerTS : NetworkBehaviour
             camera.transform.position = new Vector3(2f, -7.75f, -5);
             camera.GetComponent<Camera>().orthographicSize = 22.5f;
             death = true;
+            StartCoroutine("respawnCounter");
             StartCoroutine("respawnTimer");
         }
         
@@ -250,7 +292,10 @@ public class PlayerControllerTS : NetworkBehaviour
 
     public void UpdateScoreKills()
     {
-        kills++;
+        if (isLocalPlayer)
+        {
+            kills++;
+        }
     }
     public void UpdateScoreDeaths()
     {
@@ -261,8 +306,14 @@ public class PlayerControllerTS : NetworkBehaviour
     }
     public override void OnNetworkDestroy()
     {
+        ScoreServiceClient client = new ScoreServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ScoreService"));
+        Pacman_Sevices.IScoreServiceUser score = new Pacman_Sevices.IScoreServiceUser();
+        score.Puntuación = kills;
+        score.Nombre = CurrentPlayer.Username;
+        client.SetScore(score, kills);
         kills = 0;
         deaths = 0;
-        //Debug.Log("Actualizar score");
+        Debug.Log("Aqui");
+        GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = false;
     }
 }

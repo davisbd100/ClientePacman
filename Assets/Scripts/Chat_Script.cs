@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 
-public partial class Chat_Script : MonoBehaviour
+public partial class Chat_Script : NetworkBehaviour
 {
     // Start is called before the first frame update
     String mensaje;
-    public TextMeshProUGUI chatText;
-    public TMP_InputField inputFieldChat;
+    public Text chatText;
+    public InputField inputFieldChat;
     void Start()
     {
         Connect();
@@ -42,7 +43,7 @@ public partial class Chat_Script : IChatServiceCallback
         if (!isConnected)
         {
             client = new ChatServiceClient(new System.ServiceModel.InstanceContext(this), new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ChatServices"));
-            ID = client.Connect("muterk");
+            ID = client.Connect(CurrentPlayer.Username);
             isConnected = true;
             client.SendMsg("connected to chat!!", ID);
         }
@@ -68,5 +69,10 @@ public partial class Chat_Script : IChatServiceCallback
     public void MsgCallback(string msg)
     {
         mensaje = msg;
+    }
+    public override void OnNetworkDestroy()
+    {
+        Debug.Log("Desconecta");
+        Disconnect();
     }
 }
