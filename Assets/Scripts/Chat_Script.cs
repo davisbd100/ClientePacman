@@ -48,7 +48,7 @@ public partial class Chat_Script : IChatServiceCallback
     {
         if (!isConnected)
         {
-            client = new ChatServiceClient(new System.ServiceModel.InstanceContext(this), new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ChatServices"));
+            client = new ChatServiceClient(new System.ServiceModel.InstanceContext(this), new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://" + CurrentPlayer.IPDirection + ":8091/ChatServices"));
             ID = client.Connect(CurrentPlayer.Username);
             isConnected = true;
             client.SendMsg("connected to chat!!", ID);
