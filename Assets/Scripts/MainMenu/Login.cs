@@ -94,6 +94,10 @@ public class Login : MonoBehaviour
                     LoginStatus.Status = LoginStatus.EloginStatus.Succces;
                     CurrentPlayer.Username = usuario.Username;
                     break;
+                case DBOperationResultAddResult.SQLError:
+                    throw new TimeoutException();
+                case DBOperationResultAddResult.NullObject:
+                    throw new TimeoutException();
 
             }
         }

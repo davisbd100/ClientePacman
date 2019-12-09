@@ -127,10 +127,16 @@ public class Confirmation : MonoBehaviour
 
         try
         {
-            if(confirmation.ChangeConfirmationStatus(jugador) == 0)
+            switch (confirmation.ChangeConfirmationStatus(jugador))
             {
-                throw new WrongCodeException();
+                case DBOperationResultAddResult.SQLError:
+                    throw new TimeoutException();
+                case DBOperationResultAddResult.WrongCredentials:
+                    throw new WrongCodeException();
             }
+               
+                
+                
         }
         catch (SocketException)
         {
@@ -156,7 +162,10 @@ public class Confirmation : MonoBehaviour
 
         try
         {
-            confirmation.GenerateNewCode(jugador);
+            if (confirmation.GenerateNewCode(jugador) == DBOperationResultAddResult.SQLError)
+            {
+                throw new TimeoutException();
+            }
         }
         catch (SocketException)
         {
