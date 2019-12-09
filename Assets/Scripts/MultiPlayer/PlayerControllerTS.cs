@@ -233,11 +233,11 @@ public class PlayerControllerTS : NetworkBehaviour
         if (isLocalPlayer)
         {
             ResetCamera();
-            //ScoreServiceClient client = new ScoreServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ScoreService"));
-            //Pacman_Sevices.IScoreServiceUser score = new Pacman_Sevices.IScoreServiceUser();
-            //score.Puntuación = kills;
-            //score.Nombre = CurrentPlayer.Username;
-            //client.SetScore(score, kills);
+            ScoreServiceClient client = new ScoreServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ScoreService"));
+            Pacman_Sevices.IScoreServiceUser score = new Pacman_Sevices.IScoreServiceUser();
+            score.Puntuación = kills;
+            score.Nombre = CurrentPlayer.Username;
+            client.SetScore(score, kills);
             kills = 0;
             deaths = 0;
             GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = false;

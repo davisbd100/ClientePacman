@@ -584,7 +584,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 416969369}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &416969369
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1345,7 +1356,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2040110260}
-        m_MethodName: Play
+        m_MethodName: PlayOnePlayer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2288,7 +2299,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 852345706}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2040110260}
+        m_MethodName: Multiplayer
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &852345706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3685,8 +3707,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2548c2c9efff51a4e849e6e3e58ddd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatText: {fileID: 1801923795}
-  inputFieldChat: {fileID: 676398958}
+  chatPanel: {fileID: 0}
+  textObject: {fileID: 0}
+  maxMessages: 25
+  inputFieldChat: {fileID: 0}
 --- !u!114 &1628941817
 MonoBehaviour:
   m_ObjectHideFlags: 0
