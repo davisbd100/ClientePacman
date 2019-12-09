@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7332916516093705503}
   - component: {fileID: 4731953910948043463}
   m_Layer: 0
-  m_Name: Pacman
+  m_Name: pacman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

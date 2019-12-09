@@ -12,8 +12,6 @@ public class GameManagerTS : NetworkBehaviour
     }
     public static GameState gameState;
 
-    private GameObject pacman;
-
     static public int score;
 
     private static GameManagerTS _instance;

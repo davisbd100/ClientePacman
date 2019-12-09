@@ -9,6 +9,9 @@ TagManager:
   - pacdot
   - SpawnPoint
   - ScoreText
+  - NetworkManager
+  - DeathTime
+  - CounterText
   layers:
   - Default
   - TransparentFX
