@@ -23,7 +23,6 @@ public class GameManagerTS : NetworkBehaviour
             if (_instance == null)
             {
                 _instance = GameObject.FindObjectOfType<GameManagerTS>();
-                DontDestroyOnLoad(_instance.gameObject);
             }
             return _instance;
         }
@@ -35,7 +34,6 @@ public class GameManagerTS : NetworkBehaviour
         if (_instance == null)
         {
             _instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
@@ -49,5 +47,6 @@ public class GameManagerTS : NetworkBehaviour
     }
     public void RespawnPlayers()
     {
+
     }
 }

@@ -3904,8 +3904,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2548c2c9efff51a4e849e6e3e58ddd79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chatText: {fileID: 802840215}
-  inputFieldChat: {fileID: 1579172658}
+  chatPanel: {fileID: 0}
+  textObject: {fileID: 0}
+  maxMessages: 25
+  inputFieldChat: {fileID: 0}
 --- !u!114 &1620780689
 MonoBehaviour:
   m_ObjectHideFlags: 0
