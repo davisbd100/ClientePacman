@@ -45,6 +45,7 @@ public class PlayerControllerTS : NetworkBehaviour
         {
             GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = true;
             setCamera();
+            NM.GetComponent<NetworkManagerHUD>().enabled = false;
         }
         _dest = transform.position;
     }
@@ -240,7 +241,6 @@ public class PlayerControllerTS : NetworkBehaviour
             client.SetScore(score, kills);
             kills = 0;
             deaths = 0;
-            GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = false;
         }
     }
     public void PositionDead()
@@ -303,17 +303,5 @@ public class PlayerControllerTS : NetworkBehaviour
         {
             deaths++;
         }
-    }
-    public override void OnNetworkDestroy()
-    {
-        ScoreServiceClient client = new ScoreServiceClient(new NetTcpBinding(SecurityMode.None), new EndpointAddress("net.tcp://localhost:8091/ScoreService"));
-        Pacman_Sevices.IScoreServiceUser score = new Pacman_Sevices.IScoreServiceUser();
-        score.Puntuación = kills;
-        score.Nombre = CurrentPlayer.Username;
-        client.SetScore(score, kills);
-        kills = 0;
-        deaths = 0;
-        Debug.Log("Aqui");
-        GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().enabled = false;
     }
 }
